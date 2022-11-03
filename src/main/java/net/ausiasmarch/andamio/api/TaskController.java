@@ -69,4 +69,11 @@ public class TaskController {
             @RequestParam(name = "project", required = false) Long lProject) {
         return new ResponseEntity<Page<TaskEntity>>(oTaskService.getPage(oPageable, strFilter, lProject), HttpStatus.OK);
     }
+
+    @PostMapping("/")
+    public ResponseEntity<Long> create(@RequestBody TaskEntity oNewTaskEntity){
+        return new ResponseEntity<Long>(oTaskService.create(oNewTaskEntity), HttpStatus.OK);
+    }
+
+
 }
