@@ -14,6 +14,7 @@ import net.ausiasmarch.andamio.exception.CannotPerformOperationException;
 import net.ausiasmarch.andamio.exception.ResourceNotFoundException;
 import net.ausiasmarch.andamio.exception.UnauthorizedException;
 import net.ausiasmarch.andamio.helper.RandomHelper;
+import net.ausiasmarch.andamio.helper.ValidationHelper;
 import net.ausiasmarch.andamio.repository.TaskRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -36,6 +37,14 @@ public class TaskService {
     public TaskEntity get(Long id) {
         oAuthService.OnlyAdmins();
         return oTaskRepository.getById(id);
+    }
+
+    private void validate(TaskEntity oTaskEntity) {
+        ValidationHelper.validateStringLength(oTaskEntity.getDescription(), 10, 255, "the field description of Task must be (de 2 a 50 characteres)");
+        ValidationHelper.validateRange(oTaskEntity.getPriority(), 0, 10, "the field percentage must be(de 0 a 10) range");
+        ValidationHelper.validateRange(oTaskEntity.getComplexity(), 0, 10, "the field percentage must be(de 0 a 10) range");
+        oProjectService.validate(oTaskEntity.getProject().getId());
+        
     }
 
     public void validate(Long id) {
