@@ -4,9 +4,11 @@ import net.ausiasmarch.andamio.entity.IssueEntity;
 import net.ausiasmarch.andamio.exception.CannotPerformOperationException;
 import net.ausiasmarch.andamio.exception.ResourceNotFoundException;
 import net.ausiasmarch.andamio.helper.RandomHelper;
+import net.ausiasmarch.andamio.helper.ValidationHelper;
 import net.ausiasmarch.andamio.repository.IssueRepository;
 
 import java.math.BigInteger;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +23,8 @@ public class IssueService {
 
     @Autowired
     DeveloperService oDeveloperService;
+    
+    @Autowired
     TaskService oTaskService;
 
     private final IssueRepository oIssueRepository;
@@ -75,9 +79,18 @@ public class IssueService {
         return id;
     }
 
+    public void validate(IssueEntity oIssueEntity){
+        ValidationHelper.validateDate(oIssueEntity.getOpen_datetime(), LocalDateTime.of(1990, 01, 01, 00, 00, 00), LocalDateTime.of(2025, 01, 01, 00, 00, 00), "campo fecha de issue");
+        ValidationHelper.validateStringLength(oIssueEntity.getObservations(), 10, 255, "campo observations de issue (debe tener una longitud entre 10 y 255)");
+        ValidationHelper.validateRange(oIssueEntity.getValue(), 0, 5, "campo value de issue (debe ser un entero entre 0 y 5)");
+        oDeveloperService.validate(oIssueEntity.getDeveloper().getId());
+        oTaskService.validate(oIssueEntity.getTask().getId());
+    }
+
 
     public Long create(IssueEntity oNewIssueEntity) {
         oAuthService.OnlyAdmins();
+        validate(oNewIssueEntity);
         oNewIssueEntity.setId(0L);
         return oIssueRepository.save(oNewIssueEntity).getId();
     }
