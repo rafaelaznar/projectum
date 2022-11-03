@@ -98,15 +98,15 @@ public class DeveloperService {
         } else {
             if (id_team == null) {
                 if (id_usertype == null) {
-                    return oDeveloperRepository.findByNameIgnoreCaseContaining(strFilter, oPageable);
+                    return oDeveloperRepository.findByNameIgnoreCaseContainingOrSurnameIgnoreCaseContainingOrLast_nameIgnoreCaseContaining(strFilter, strFilter, strFilter, oPageable);
                 } else {
-                    return oDeveloperRepository.findByNameIgnoreCaseContainingAndUsertypeId(strFilter, id_usertype, oPageable);
+                    return oDeveloperRepository.findByNameIgnoreCaseContainingOrSurnameIgnoreCaseContainingOrLast_nameIgnoreCaseContainingAndUsertypeId(strFilter, strFilter, strFilter, id_usertype, oPageable);
                 }
             } else {
                 if (id_usertype == null) {
-                    return oDeveloperRepository.findByNameIgnoreCaseContainingAndTeamId(strFilter, id_team, oPageable);
+                    return oDeveloperRepository.findByNameIgnoreCaseContainingOrSurnameIgnoreCaseContainingOrLast_nameIgnoreCaseContainingAndTeamId(strFilter, strFilter, strFilter, id_team, oPageable);
                 } else {
-                    return oDeveloperRepository.findByNameIgnoreCaseContainingAndTeamIdAndUsertypeId(strFilter,id_team, id_usertype, oPageable);
+                    return oDeveloperRepository.findByNameIgnoreCaseContainingOrSurnameIgnoreCaseContainingOrLast_nameIgnoreCaseContainingAndTeamIdAndUsertypeId(strFilter, strFilter, strFilter, id_team, id_usertype, oPageable);
                 }
             }
         }
