@@ -124,4 +124,10 @@ public class ValidationHelper {
         }
     }
 
+    public static void validateRPP(int iRPP) {
+        if (iRPP < 1 || iRPP > 1000) {
+            throw new ValidationException("RPP value is not valid (must be between 1 and 1000)");
+        }
+    }
+
 }

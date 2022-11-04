@@ -21,6 +21,7 @@ import net.ausiasmarch.andamio.repository.DeveloperRepository;
 
 @Service
 public class DeveloperService {
+
     @Autowired
     UsertypeService oUsertypeService;
 
@@ -37,10 +38,10 @@ public class DeveloperService {
             "Jose David", "Nerea", "Ximo", "Iris", "Alvaro", "Mario", "Raimon");
 
     private final List<String> surnames = List.of("Benito", "Blanco", "Boriko", "Carrascosa", "Guerrero", "Gyori",
-            "Lazaro", "Luque", "Perez", "Perez", "Perez", "Rezgaoui", "Rodríguez", "Rosales" ,"Soler", "Soler", "Suay", "Talaya", "Tomas", "Vilar");
+            "Lazaro", "Luque", "Perez", "Perez", "Perez", "Rezgaoui", "Rodríguez", "Rosales", "Soler", "Soler", "Suay", "Talaya", "Tomas", "Vilar");
 
     private final List<String> last_names = List.of("Sanchis", "Bañuls", "Laenos", "Torres", "Sanchez", "Gyori",
-            "Luz", "Pascual", "Blayimir", "Castello", "Hurtado", "Mourad", "Fernández", "Ríos" ,"Benavent", "Benavent", "Patricio", "Romance", "Zanon", "Morera");
+            "Luz", "Pascual", "Blayimir", "Castello", "Hurtado", "Mourad", "Fernández", "Ríos", "Benavent", "Benavent", "Patricio", "Romance", "Zanon", "Morera");
 
     private final String ANDAMIO_DEFAULT_PASSWORD = "73ec8dee81ea4c9e7515d63c9e5bbb707c7bc4789363c5afa401d3aa780630f6";
 
@@ -58,7 +59,7 @@ public class DeveloperService {
         }
     }
 
-    public void validate(DeveloperEntity oDeveloperEntity){
+    public void validate(DeveloperEntity oDeveloperEntity) {
         ValidationHelper.validateStringLength(oDeveloperEntity.getName(), 2, 50, "campo name de Developer(el campo debe tener longitud de 2 a 50 caracteres)");
         ValidationHelper.validateStringLength(oDeveloperEntity.getSurname(), 2, 50, "campo surname de Developer(el campo debe tener longitud de 2 a 50 caracteres)");
         ValidationHelper.validateStringLength(oDeveloperEntity.getLast_name(), 2, 50, "campo lastname de Developer(el campo debe tener longitud de 2 a 50 caracteres)");
@@ -77,18 +78,39 @@ public class DeveloperService {
                 .orElseThrow(() -> new ResourceNotFoundException("Developer with id: " + id + " not found"));
     }
 
-    public Page<DeveloperEntity> getPage(Long id_team, Long id_usertype, int page, int size) {
+    public Page<DeveloperEntity> getPage(Pageable oPageable, String strFilter, Long id_team, Long id_usertype) {
         oAuthService.OnlyAdmins();
-        Pageable oPageable = PageRequest.of(page, size);
-        if (id_team == null && id_usertype == null) {
-            return oDeveloperRepository.findAll(oPageable);
-        } else if (id_team == null) {
-            return oDeveloperRepository.findByUsertypeId(id_usertype, oPageable);
-        } else if (id_usertype == null) {
-            return oDeveloperRepository.findByTeamId(id_team, oPageable);
+        ValidationHelper.validateRPP(oPageable.getPageSize());
+        if (strFilter == null) {
+            if (id_team == null) {
+                if (id_usertype == null) {
+                    return oDeveloperRepository.findAll(oPageable);
+                } else {
+                    return oDeveloperRepository.findByUsertypeId(id_usertype, oPageable);
+                }
+            } else {
+                if (id_usertype == null) {
+                    return oDeveloperRepository.findByTeamId(id_team, oPageable);
+                } else {
+                    return oDeveloperRepository.findByTeamIdAndUsertypeId(id_team, id_usertype, oPageable);
+                }
+            }
         } else {
-            return oDeveloperRepository.findByTeamIdAndUsertypeId(id_team, id_usertype, oPageable);
+            if (id_team == null) {
+                if (id_usertype == null) {
+                    return oDeveloperRepository.findByNameIgnoreCaseContainingOrSurnameIgnoreCaseContainingOrLast_nameIgnoreCaseContaining(strFilter, strFilter, strFilter, oPageable);
+                } else {
+                    return oDeveloperRepository.findByNameIgnoreCaseContainingOrSurnameIgnoreCaseContainingOrLast_nameIgnoreCaseContainingAndUsertypeId(strFilter, strFilter, strFilter, id_usertype, oPageable);
+                }
+            } else {
+                if (id_usertype == null) {
+                    return oDeveloperRepository.findByNameIgnoreCaseContainingOrSurnameIgnoreCaseContainingOrLast_nameIgnoreCaseContainingAndTeamId(strFilter, strFilter, strFilter, id_team, oPageable);
+                } else {
+                    return oDeveloperRepository.findByNameIgnoreCaseContainingOrSurnameIgnoreCaseContainingOrLast_nameIgnoreCaseContainingAndTeamIdAndUsertypeId(strFilter, strFilter, strFilter, id_team, id_usertype, oPageable);
+                }
+            }
         }
+
     }
 
     public Long count() {
@@ -120,7 +142,7 @@ public class DeveloperService {
         }
     }
 
-   //necesario para coger el id para el generate del team 
+    //necesario para coger el id para el generate del team 
     public DeveloperEntity getOneRandom() {
         if (count() > 0) {
             DeveloperEntity oDeveloperEntity = null;

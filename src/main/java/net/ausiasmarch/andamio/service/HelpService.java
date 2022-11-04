@@ -6,6 +6,7 @@ import net.ausiasmarch.andamio.helper.ValidationHelper;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,12 +28,7 @@ public class HelpService {
     private final AuthService oAuthService;
     private final DeveloperService oDeveloperService;
     private final ResolutionService oResolutionService;
-    
-    public HelpEntity get(Long id) {
-        oAuthService.OnlyAdmins();
-        return oHelpRepository.getById(id);
-    }
-
+              
     private void validate(Long id) {
         if (!oHelpRepository.existsById(id)) {
             throw new ResourceNotFoundException("id " + id + " not exist");
@@ -40,12 +36,25 @@ public class HelpService {
     }
 
     private void validate(HelpEntity oHelpEntity) {
-        ValidationHelper.validateRange(oHelpEntity.getPercentage(), 0, 100, "field percentage must be(de 0 a 100) range");
+        ValidationHelper.validateRange(oHelpEntity.getPercentage(), 0, 100, "field percentage must be in the 0-100 range");
         oResolutionService.validate(oHelpEntity.getResolution().getId());
         oDeveloperService.validate(oHelpEntity.getDeveloper().getId());
     }
 
+    public HelpEntity get(Long id) {
+        oAuthService.OnlyAdmins();
+        return oHelpRepository.getById(id);
+    }    
     
+    @Transactional
+    public Long create(HelpEntity oHelpEntity) {
+        oAuthService.OnlyAdmins();
+        validate(oHelpEntity);                                     
+        oHelpEntity.setResolution(oResolutionService.get(oHelpEntity.getResolution().getId()));        
+        oHelpEntity.setDeveloper(oDeveloperService.get(oHelpEntity.getDeveloper().getId()));                
+        oHelpEntity.setId(null);        
+        return oHelpRepository.save(oHelpEntity).getId();
+    }
 
     public Long delete(Long id) {
         validate(id);
