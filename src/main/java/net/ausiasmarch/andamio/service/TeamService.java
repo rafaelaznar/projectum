@@ -127,7 +127,11 @@ public class TeamService {
         }
     }
 
-
+    public Long update(TeamEntity oTeamEntity) {
+        validate(oTeamEntity.getId());
+        oAuthService.OnlyAdmins();
+        return oTeamRepository.save(oTeamEntity).getId();
+    }
 
     
 
