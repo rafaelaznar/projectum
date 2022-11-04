@@ -118,4 +118,11 @@ public class ResolutionService {
         }
     }
     
+    public Long update(Long id, ResolutionEntity oResolutionEntity) {
+        oAuthService.OnlyAdmins();
+        //oResolutionEntity.setId(id);
+        //validate(id);
+        //validate(oResolutionEntity);
+        return oResolutionRepository.save(oResolutionEntity).getId();
+    }
 }

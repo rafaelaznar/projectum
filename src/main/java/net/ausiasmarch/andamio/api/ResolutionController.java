@@ -11,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -54,5 +56,11 @@ public class ResolutionController {
     public ResponseEntity<Long> generateSome(@PathVariable(value = "amount") int amount) {
         return new ResponseEntity<Long>(oResolutionService.generateSome(amount), HttpStatus.OK);
     }
+
+    @PutMapping("/")
+    public ResponseEntity<Long> update(@RequestBody ResolutionEntity oResolutionEntity) {
+        return new ResponseEntity<Long>(oResolutionService.update(oResolutionEntity.getId(), oResolutionEntity), HttpStatus.OK);
+    }
+    
 
 }
