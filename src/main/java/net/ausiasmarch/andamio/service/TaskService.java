@@ -137,4 +137,13 @@ public class TaskService {
             throw new UnauthorizedException("this request is only allowed to admin role");
         }
     }
+
+    public Long create(TaskEntity oNewTaskEntity){
+        oAuthService.OnlyAdmins();
+        
+
+        return oTaskRepository.save(oNewTaskEntity).getId();
+    }
+
+
 }
