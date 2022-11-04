@@ -17,12 +17,12 @@ public interface DeveloperRepository extends JpaRepository<DeveloperEntity, Long
 
     Page<DeveloperEntity> findByTeamId(Long id_team, Pageable oPageable);
 
-    Page<DeveloperEntity> findByNameIgnoreCaseContaining(String strFilter, Pageable oPageable);
+    Page<DeveloperEntity> findByNameIgnoreCaseContainingOrSurnameIgnoreCaseContainingOrLast_nameIgnoreCaseContaining(String strFilterName, String strFilterSurname, String strFilterLast_name, Pageable oPageable);
 
-    Page<DeveloperEntity> findByNameIgnoreCaseContainingAndUsertypeId(String strFilter, Long id_usertype, Pageable oPageable);
+    Page<DeveloperEntity> findByNameIgnoreCaseContainingOrSurnameIgnoreCaseContainingOrLast_nameIgnoreCaseContainingAndUsertypeId(String strFilterName, String strFilterSurname, String strFilterLast_name, Long id_usertype, Pageable oPageable);
 
-    Page<DeveloperEntity> findByNameIgnoreCaseContainingAndTeamId(String strFilter, Long id_team, Pageable oPageable);
+    Page<DeveloperEntity> findByNameIgnoreCaseContainingOrSurnameIgnoreCaseContainingOrLast_nameIgnoreCaseContainingAndTeamId(String strFilterName, String strFilterSurname, String strFilterLast_name, Long id_team, Pageable oPageable);
 
-    Page<DeveloperEntity> findByNameIgnoreCaseContainingAndTeamIdAndUsertypeId(String strFilter, Long id_team, Long id_usertype, Pageable oPageable);
+    Page<DeveloperEntity> findByNameIgnoreCaseContainingOrSurnameIgnoreCaseContainingOrLast_nameIgnoreCaseContainingAndTeamIdAndUsertypeId(String strFilterName, String strFilterSurname, String strFilterLast_name, Long id_team, Long id_usertype, Pageable oPageable);
 
 }
