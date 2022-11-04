@@ -87,6 +87,15 @@ public class HelpService {
         return oHelpEntity;
     }
     
+    public Long create(HelpEntity oNewHelpEntity) {
+        oAuthService.OnlyAdmins();
+        validate(oNewHelpEntity);
+        oNewHelpEntity.setResolution(oResolutionService.get(oNewHelpEntity.getResolution().getId()));
+        oNewHelpEntity.setDeveloper(oDeveloperService.get(oNewHelpEntity.getDeveloper().getId()));
+        oNewHelpEntity.setId(0L);
+        return oHelpRepository.save(oNewHelpEntity).getId();
+    }
+    
     public Long update(HelpEntity oHelpEntity) {
         validate(oHelpEntity.getId());
         oAuthService.OnlyAdmins();

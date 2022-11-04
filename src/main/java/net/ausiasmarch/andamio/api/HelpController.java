@@ -28,15 +28,15 @@ public class HelpController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<Long> create(@RequestBody HelpEntity oHelpEntity) {
-        return new ResponseEntity<Long>(oHelpService.create(oHelpEntity), HttpStatus.OK);
+    public ResponseEntity<Long> create(@RequestBody HelpEntity oNewHelpEntity) {
+        return new ResponseEntity<Long>(oHelpService.create(oNewHelpEntity), HttpStatus.OK);
     }
-    
+        
     @PutMapping("")
     public ResponseEntity<Long> update(@RequestBody HelpEntity oHelpEntity) {
         return new ResponseEntity<Long>(oHelpService.update(oHelpEntity), HttpStatus.OK);
     }
-        
+    
     @DeleteMapping("/{id}")
     public Long delete(@PathVariable(value = "id") Long id) {
         return oHelpService.delete(id);
@@ -51,6 +51,4 @@ public class HelpController {
     public ResponseEntity<Long> generateSome(@PathVariable(value = "amount") Integer amount) {
         return new ResponseEntity<>(oHelpService.generateSome(amount), HttpStatus.OK);
     }
-
-
 }
