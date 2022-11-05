@@ -47,13 +47,13 @@ public class HelpService {
     }    
     
     @Transactional
-    public Long create(HelpEntity oHelpEntity) {
+    public Long create(HelpEntity oNewHelpEntity) {
         oAuthService.OnlyAdmins();
-        validate(oHelpEntity);                                     
-        oHelpEntity.setResolution(oResolutionService.get(oHelpEntity.getResolution().getId()));        
-        oHelpEntity.setDeveloper(oDeveloperService.get(oHelpEntity.getDeveloper().getId()));                
-        oHelpEntity.setId(null);        
-        return oHelpRepository.save(oHelpEntity).getId();
+        validate(oNewHelpEntity);
+        oNewHelpEntity.setResolution(oResolutionService.get(oNewHelpEntity.getResolution().getId()));
+        oNewHelpEntity.setDeveloper(oDeveloperService.get(oNewHelpEntity.getDeveloper().getId()));
+        oNewHelpEntity.setId(null);
+        return oHelpRepository.save(oNewHelpEntity).getId();
     }
 
     public Long delete(Long id) {
@@ -85,15 +85,6 @@ public class HelpService {
         oHelpEntity.setDeveloper(oDeveloperService.getOneRandom());
         oHelpEntity.setPercentage(RandomHelper.getRadomDouble(0, 100));
         return oHelpEntity;
-    }
-    
-    public Long create(HelpEntity oNewHelpEntity) {
-        oAuthService.OnlyAdmins();
-        validate(oNewHelpEntity);
-        oNewHelpEntity.setResolution(oResolutionService.get(oNewHelpEntity.getResolution().getId()));
-        oNewHelpEntity.setDeveloper(oDeveloperService.get(oNewHelpEntity.getDeveloper().getId()));
-        oNewHelpEntity.setId(0L);
-        return oHelpRepository.save(oNewHelpEntity).getId();
     }
     
     public Long update(HelpEntity oHelpEntity) {
