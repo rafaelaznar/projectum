@@ -1,6 +1,7 @@
 package net.ausiasmarch.andamio.service;
 
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,7 @@ import net.ausiasmarch.andamio.entity.ResolutionEntity;
 import net.ausiasmarch.andamio.exception.CannotPerformOperationException;
 import net.ausiasmarch.andamio.helper.RandomHelper;
 import net.ausiasmarch.andamio.repository.ResolutionRepository;
-
+import net.ausiasmarch.andamio.helper.ValidationHelper;
 
 @Service
 public class ResolutionService {
@@ -124,5 +125,24 @@ public class ResolutionService {
         //validate(id);
         //validate(oResolutionEntity);
         return oResolutionRepository.save(oResolutionEntity).getId();
+    }
+
+    public void validate(ResolutionEntity oResolutionEntity){
+     
+        oIssueService.validate(oResolutionEntity.getIssue().getId());
+        ValidationHelper.validateStringLength(oResolutionEntity.getObservations(), 10, 255, "campo observations de resolution (debe tener una longitud entre 10 y 255)");
+        ValidationHelper.validateRange(oResolutionEntity.getIntegration_turn(), 0, 100, "campo integration Turn de resolution (debe ser un entero entre 0 y 100)");
+        ValidationHelper.validateDate(oResolutionEntity.getIntegration_datetime(), LocalDateTime.of(1990, 01, 01, 00, 00, 00), LocalDateTime.of(2025, 01, 01, 00, 00, 00), "campo fecha de resolution");
+        ValidationHelper.validateStringLength(oResolutionEntity.getPullrequest_url(), 10, 255, "campo URL de resolution (debe tener una longitud entre 10 y 255)");
+        ValidationHelper.validateRange(oResolutionEntity.getValue(), 0, 4, "campo value de Resolution (debe ser un entero entre 0 y 4)");
+        oDeveloperService.validate(oResolutionEntity.getDeveloper().getId());
+    }
+
+
+    public Long create(ResolutionEntity oNewResolutionEntity) {
+        oAuthService.OnlyAdmins();
+        validate(oNewResolutionEntity);
+        oNewResolutionEntity.setId(0L);
+        return oResolutionRepository.save(oNewResolutionEntity).getId();
     }
 }
