@@ -4,6 +4,7 @@ import net.ausiasmarch.andamio.entity.ProjectEntity;
 import net.ausiasmarch.andamio.exception.CannotPerformOperationException;
 import net.ausiasmarch.andamio.exception.ResourceNotFoundException;
 import net.ausiasmarch.andamio.helper.RandomHelper;
+import net.ausiasmarch.andamio.helper.ValidationHelper;
 import net.ausiasmarch.andamio.repository.ProjectRepository;
 
 import java.util.ArrayList;
@@ -43,6 +44,13 @@ public class ProjectService {
         }
     }
 
+    private void validate(ProjectEntity oProjectEntity) {
+        ValidationHelper.validateStringLength(oProjectEntity.getProject_description(), 2, 255, "campo project_description de Project(el campo debe tener longitud de 2 a 255 caracteres)");
+        ValidationHelper.validateStringLength(oProjectEntity.getProject_code(), 2, 255, "campo project_code de Project(el campo debe tener longitud de 2 a 255 caracteres)");
+        ValidationHelper.validateStringLength(oProjectEntity.getUrl(), 2, 255, "campo url de Project(el campo debe tener longitud de 2 a 255 caracteres)");
+        oTeamService.validate(oProjectEntity.getTeam().getId());
+    }
+
     public ProjectEntity get(Long id) {
         oAuthService.OnlyAdmins();
         return oProjectRepository.findById(id)
@@ -80,12 +88,15 @@ public class ProjectService {
 
     public Long update(ProjectEntity oProjectEntity) {
         validate(oProjectEntity.getId());
+        validate(oProjectEntity);
         oAuthService.OnlyAdmins();
         return oProjectRepository.save(oProjectEntity).getId();
     }
 
     public Long create(ProjectEntity oProjectEntity) {
         oAuthService.OnlyAdmins();
+        validate(oProjectEntity.getId());
+        validate(oProjectEntity);
         return oProjectRepository.save(oProjectEntity).getId();
     }
 
