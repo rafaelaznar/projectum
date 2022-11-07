@@ -38,6 +38,13 @@ public class UsertypeService {
         
             return oUsertypeRepository.findAll(oPageable);
     }
+
+    public Long update(UsertypeEntity oUsertypeEntity) {
+        oAuthService.OnlyAdmins();
+        validate(oUsertypeEntity.getId());
+        oUsertypeRepository.save(oUsertypeEntity);
+        return oUsertypeEntity.getId();
+    }
     
     public void validate(Long id) {
         if (!oUsertypeRepository.existsById(id)) {
