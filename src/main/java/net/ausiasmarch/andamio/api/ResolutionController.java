@@ -62,5 +62,9 @@ public class ResolutionController {
         return new ResponseEntity<Long>(oResolutionService.update(oResolutionEntity.getId(), oResolutionEntity), HttpStatus.OK);
     }
     
+    @PostMapping("/")
+    public ResponseEntity<Long> create(@RequestBody ResolutionEntity oNewResolutionEntity){
+        return new ResponseEntity<Long>(oResolutionService.create(oNewResolutionEntity), HttpStatus.OK);
+    }
 
 }
