@@ -50,7 +50,12 @@ public class ProjectController {
     public ResponseEntity<Long> count() {
         return new ResponseEntity<Long>(oProjectService.count(), HttpStatus.OK);
     }
-    
+
+    @PostMapping
+    public ResponseEntity<Long> create(@RequestBody ProjectEntity oProjectEntity) {
+        return new ResponseEntity<>(oProjectService.create(oProjectEntity), HttpStatus.OK);
+    }
+
     @PutMapping("")
     public ResponseEntity<Long> update(@RequestBody ProjectEntity oProjectEntity) {
         return new ResponseEntity<Long>(oProjectService.update(oProjectEntity), HttpStatus.OK);
