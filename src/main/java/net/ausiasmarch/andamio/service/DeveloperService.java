@@ -73,13 +73,13 @@ public class DeveloperService {
     }
 
     public DeveloperEntity get(Long id) {
-        oAuthService.OnlyAdmins();
+        //oAuthService.OnlyAdmins();
         return oDeveloperRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Developer with id: " + id + " not found"));
     }
 
     public Page<DeveloperEntity> getPage(Pageable oPageable, String strFilter, Long id_team, Long id_usertype) {
-        oAuthService.OnlyAdmins();
+        //oAuthService.OnlyAdmins();
         ValidationHelper.validateRPP(oPageable.getPageSize());
         if (strFilter == null) {
             if (id_team == null) {
@@ -114,25 +114,25 @@ public class DeveloperService {
     }
 
     public Long count() {
-        oAuthService.OnlyAdmins();
+        //oAuthService.OnlyAdmins();
         return oDeveloperRepository.count();
     }
 
     public Long update(DeveloperEntity oDeveloperEntity) {
         validate(oDeveloperEntity.getId());
-        oAuthService.OnlyAdmins();
+        //oAuthService.OnlyAdmins();
         return oDeveloperRepository.save(oDeveloperEntity).getId();
     }
 
     public Long create(DeveloperEntity oNewDeveloperEntity) {
-        oAuthService.OnlyAdmins();
+        //oAuthService.OnlyAdmins();
         validate(oNewDeveloperEntity);
         oNewDeveloperEntity.setId(0L);
         return oDeveloperRepository.save(oNewDeveloperEntity).getId();
     }
 
     public Long delete(Long id) {
-        oAuthService.OnlyAdmins();
+        //oAuthService.OnlyAdmins();
         validate(id);
         oDeveloperRepository.deleteById(id);
         if (oDeveloperRepository.existsById(id)) {
@@ -184,12 +184,12 @@ public class DeveloperService {
     }
 
     public DeveloperEntity generateOne() {
-        oAuthService.OnlyAdmins();
+        //oAuthService.OnlyAdmins();
         return oDeveloperRepository.save(generateDeveloper());
     }
 
     public Long generateSome(Long amount) {
-        oAuthService.OnlyAdmins();
+        //oAuthService.OnlyAdmins();
         List<DeveloperEntity> developerToSave = new ArrayList<>();
         for (int i = 0; i < amount; i++) {
             developerToSave.add(generateDeveloper());

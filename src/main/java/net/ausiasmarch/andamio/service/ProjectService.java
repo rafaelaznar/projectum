@@ -52,14 +52,14 @@ public class ProjectService {
     }
 
     public ProjectEntity get(Long id) {
-        oAuthService.OnlyAdmins();
+        //oAuthService.OnlyAdmins();
         return oProjectRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Project with id: " + id + " not found"));
 
     }
 
     public Page<ProjectEntity> getPage(Pageable oPageable, String strFilter, Long lTeam) {
-        oAuthService.OnlyAdmins();
+        //oAuthService.OnlyAdmins();
         Page<ProjectEntity> oPage = null;
         if (lTeam != null) {
             if (strFilter == null || strFilter.isEmpty() || strFilter.trim().isEmpty()) {
@@ -82,19 +82,19 @@ public class ProjectService {
     }
 
     public Long count() {
-        oAuthService.OnlyAdmins();
+        //oAuthService.OnlyAdmins();
         return oProjectRepository.count();
     }
 
     public Long update(ProjectEntity oProjectEntity) {
         validate(oProjectEntity.getId());
         validate(oProjectEntity);
-        oAuthService.OnlyAdmins();
+        //oAuthService.OnlyAdmins();
         return oProjectRepository.save(oProjectEntity).getId();
     }
 
     public Long create(ProjectEntity oProjectEntity) {
-        oAuthService.OnlyAdmins();
+        //oAuthService.OnlyAdmins();
         validate(oProjectEntity.getId());
         validate(oProjectEntity);
         return oProjectRepository.save(oProjectEntity).getId();
@@ -102,7 +102,7 @@ public class ProjectService {
 
     public Long delete(Long id) {
         validate(id);
-        oAuthService.OnlyAdmins();
+        //oAuthService.OnlyAdmins();
         oProjectRepository.deleteById(id);
         return id;
     }
@@ -122,14 +122,14 @@ public class ProjectService {
     }
 
     public ProjectEntity generate() {
-        oAuthService.OnlyAdmins();
+        //oAuthService.OnlyAdmins();
         ProjectEntity oProjectEntity = generateRandomProject();
         oProjectRepository.save(oProjectEntity);
         return oProjectEntity;
     }
 
     public Long generateSome(Integer amount) {
-        oAuthService.OnlyAdmins();
+        //oAuthService.OnlyAdmins();
         List<ProjectEntity> userList = new ArrayList<>();
         for (int i = 0; i < amount; i++) {
             ProjectEntity oProjectEntity = generateRandomProject();

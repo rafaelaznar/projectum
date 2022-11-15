@@ -42,13 +42,13 @@ public class HelpService {
     }
 
     public HelpEntity get(Long id) {
-        oAuthService.OnlyAdmins();
+        //oAuthService.OnlyAdmins();
         return oHelpRepository.getById(id);
     }    
     
     @Transactional
     public Long create(HelpEntity oNewHelpEntity) {
-        oAuthService.OnlyAdmins();
+        //oAuthService.OnlyAdmins();
         validate(oNewHelpEntity);
         oNewHelpEntity.setResolution(oResolutionService.get(oNewHelpEntity.getResolution().getId()));
         oNewHelpEntity.setDeveloper(oDeveloperService.get(oNewHelpEntity.getDeveloper().getId()));
@@ -58,18 +58,18 @@ public class HelpService {
 
     public Long delete(Long id) {
         validate(id);
-        oAuthService.OnlyAdmins();
+        //oAuthService.OnlyAdmins();
         oHelpRepository.deleteById(id);
         return id;
     }
 
     public HelpEntity generate() {
-        oAuthService.OnlyAdmins();
+        //oAuthService.OnlyAdmins();
         return oHelpRepository.save(generateRandomUser());
     }
 
     public Long generateSome(Integer amount) {
-        oAuthService.OnlyAdmins();
+        //oAuthService.OnlyAdmins();
         List<HelpEntity> userList = new ArrayList<>();
         for (int i = 0; i < amount; i++) {
             HelpEntity oUsuarioEntity = generateRandomUser();
@@ -89,7 +89,7 @@ public class HelpService {
     
     public Long update(HelpEntity oHelpEntity) {
         validate(oHelpEntity.getId());
-        oAuthService.OnlyAdmins();
+        //oAuthService.OnlyAdmins();
         return oHelpRepository.save(oHelpEntity).getId();
     }
 }

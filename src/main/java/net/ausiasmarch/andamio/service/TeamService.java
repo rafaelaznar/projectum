@@ -38,7 +38,7 @@ public class TeamService {
     }
 
     public TeamEntity get(Long id) {
-        oAuthService.OnlyAdmins();
+        //oAuthService.OnlyAdmins();
         return oTeamRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Team with id: " + id + " not found"));
     }
@@ -51,7 +51,7 @@ public class TeamService {
 
     public Long delete(Long id) {
         validate(id);
-        oAuthService.OnlyAdmins();
+        //oAuthService.OnlyAdmins();
         oTeamRepository.deleteById(id);
         return id;
     }
@@ -78,13 +78,13 @@ public class TeamService {
     }
 
     public Long create(TeamEntity oNewTeamEntity) {
-        oAuthService.OnlyAdmins();
+        //oAuthService.OnlyAdmins();
         oNewTeamEntity.setId(0L);
         return oTeamRepository.save(oNewTeamEntity).getId();
     }
 
     public Long count() {
-        oAuthService.OnlyAdmins();
+        //oAuthService.OnlyAdmins();
         return oTeamRepository.count();
     }
 
@@ -129,7 +129,7 @@ public class TeamService {
 
     public Long update(TeamEntity oTeamEntity) {
         validate(oTeamEntity.getId());
-        oAuthService.OnlyAdmins();
+        //oAuthService.OnlyAdmins();
         return oTeamRepository.save(oTeamEntity).getId();
     }
 

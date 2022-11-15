@@ -46,19 +46,19 @@ public class IssueService {
     }
 
     public IssueEntity get(Long id) {
-        oAuthService.OnlyAdmins();
+        //oAuthService.OnlyAdmins();
         return oIssueRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Issue with id: " + id + " not found"));
     }
 
     public Long update(IssueEntity oIssueEntity) {
         validate(oIssueEntity.getId());
-        oAuthService.OnlyAdmins();
+        //oAuthService.OnlyAdmins();
         return oIssueRepository.save(oIssueEntity).getId();
     }
 
     public Page<IssueEntity> getPage(Long id_developer, Long id_task, int page, int size) {
-        oAuthService.OnlyAdmins();
+        //oAuthService.OnlyAdmins();
         Pageable oPageable = PageRequest.of(page, size);
         if (id_developer == null && id_task == null) {
             return oIssueRepository.findAll(oPageable);
@@ -73,7 +73,7 @@ public class IssueService {
         
 
     public Long delete(Long id) {
-        oAuthService.OnlyAdmins();
+        //oAuthService.OnlyAdmins();
         validate(id);
         oIssueRepository.deleteById(id);
         return id;
@@ -89,14 +89,14 @@ public class IssueService {
 
 
     public Long create(IssueEntity oNewIssueEntity) {
-        oAuthService.OnlyAdmins();
+        //oAuthService.OnlyAdmins();
         validate(oNewIssueEntity);
         oNewIssueEntity.setId(0L);
         return oIssueRepository.save(oNewIssueEntity).getId();
     }
     
     public Long count(){
-        oAuthService.OnlyAdmins();
+        //oAuthService.OnlyAdmins();
         return oIssueRepository.count();
 
     }
@@ -116,7 +116,7 @@ public class IssueService {
     }
 
     private IssueEntity generateIssue() {
-        oAuthService.OnlyAdmins();
+        //oAuthService.OnlyAdmins();
         return oIssueRepository.save(generateRandomIssue());
     }
     
@@ -136,7 +136,7 @@ public class IssueService {
 
 
     public Long generateSome(Integer amount) {
-        oAuthService.OnlyAdmins();
+        //oAuthService.OnlyAdmins();
         List<IssueEntity> userList = new ArrayList<>();
         for (int i = 0; i < amount; i++) {
             IssueEntity oIssueEntity = generateIssue();

@@ -38,17 +38,17 @@ public class ResolutionService {
 
     
     public ResolutionEntity get(Long id) {
-        oAuthService.OnlyAdmins();
+        //oAuthService.OnlyAdmins();
         return oResolutionRepository.getById(id);
     }
 
     public Long count() {
-        oAuthService.OnlyAdmins();
+        //oAuthService.OnlyAdmins();
         return oResolutionRepository.count();
     }
     
     public Page<ResolutionEntity> getPage(String strFilter, Long id_issue, Long id_developer, Pageable oPageable) {
-        oAuthService.OnlyAdmins();
+        //oAuthService.OnlyAdmins();
         if (strFilter == null && id_issue == null && id_developer == null) {
             return oResolutionRepository.findAll(oPageable);
         } else if (id_developer == null && id_issue == null) {
@@ -120,7 +120,7 @@ public class ResolutionService {
     }
     
     public Long update(Long id, ResolutionEntity oResolutionEntity) {
-        oAuthService.OnlyAdmins();
+        //oAuthService.OnlyAdmins();
         //oResolutionEntity.setId(id);
         //validate(id);
         //validate(oResolutionEntity);
@@ -140,7 +140,7 @@ public class ResolutionService {
 
 
     public Long create(ResolutionEntity oNewResolutionEntity) {
-        oAuthService.OnlyAdmins();
+        //oAuthService.OnlyAdmins();
         validate(oNewResolutionEntity);
         oNewResolutionEntity.setId(0L);
         return oResolutionRepository.save(oNewResolutionEntity).getId();

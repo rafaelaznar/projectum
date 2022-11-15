@@ -22,25 +22,25 @@ public class UsertypeService {
     }
 
     public UsertypeEntity get(Long id) {
-        oAuthService.OnlyAdmins();
+        //oAuthService.OnlyAdmins();
         return oUsertypeRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("UserType with id: " + id + " not found"));
     }
 
     public Long count() {
-        oAuthService.OnlyAdmins();
+        //oAuthService.OnlyAdmins();
         return oUsertypeRepository.count();
     }
 
     public Page<UsertypeEntity> getPage(int page, int size) {
-        oAuthService.OnlyAdmins();
+        //oAuthService.OnlyAdmins();
         Pageable oPageable = PageRequest.of(page, size);
         
             return oUsertypeRepository.findAll(oPageable);
     }
 
     public Long update(UsertypeEntity oUsertypeEntity) {
-        oAuthService.OnlyAdmins();
+        //oAuthService.OnlyAdmins();
         validate(oUsertypeEntity.getId());
         oUsertypeRepository.save(oUsertypeEntity);
         return oUsertypeEntity.getId();

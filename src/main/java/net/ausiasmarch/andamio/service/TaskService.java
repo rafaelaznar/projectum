@@ -35,7 +35,7 @@ public class TaskService {
     ProjectService oProjectService;
 
     public TaskEntity get(Long id) {
-        oAuthService.OnlyAdmins();
+        //oAuthService.OnlyAdmins();
         return oTaskRepository.getById(id);
     }
 
@@ -55,19 +55,19 @@ public class TaskService {
 
     public Long delete(Long id) {
         validate(id);
-        oAuthService.OnlyAdmins();
+        //oAuthService.OnlyAdmins();
         oTaskRepository.deleteById(id);
         return id;
     }
 
     public Long count() {
-        oAuthService.OnlyAdmins();
+        //oAuthService.OnlyAdmins();
         return oTaskRepository.count();
     }
 
     public Long update(TaskEntity oTaskEntity) {
         validate(oTaskEntity.getId());
-        oAuthService.OnlyAdmins();
+        //oAuthService.OnlyAdmins();
         oTaskRepository.save(oTaskEntity);
         return oTaskEntity.getId();
     }
@@ -87,14 +87,14 @@ public class TaskService {
     }
 
     public TaskEntity generate() {
-        oAuthService.OnlyAdmins();
+        //oAuthService.OnlyAdmins();
         TaskEntity oTaskEntity = generateRandomTask();
         oTaskRepository.save(oTaskEntity);
         return oTaskEntity;
     }
 
     public Long generateSome(Integer amount) {
-        oAuthService.OnlyAdmins();
+        //oAuthService.OnlyAdmins();
         List<TaskEntity> userList = new ArrayList<>();
         for (int i = 0; i < amount; i++) {
             TaskEntity oTaskEntity = generateRandomTask();
@@ -139,7 +139,7 @@ public class TaskService {
     }
 
     public Long create(TaskEntity oNewTaskEntity){
-        oAuthService.OnlyAdmins();
+        //oAuthService.OnlyAdmins();
         
 
         return oTaskRepository.save(oNewTaskEntity).getId();
