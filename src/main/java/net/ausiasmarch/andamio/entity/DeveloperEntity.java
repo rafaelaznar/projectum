@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -29,7 +30,8 @@ public class DeveloperEntity implements Serializable {
 
     private String name;
     private String surname;
-    private String last_name;
+    @Column(name = "last_name")
+    private String lastname;
     private String email;
     private String username;
 
@@ -97,12 +99,12 @@ public class DeveloperEntity implements Serializable {
         this.surname = surname;
     }
 
-    public String getLast_name() {
-        return last_name;
+    public String getLastname() {
+        return lastname;
     }
 
-    public void setLast_name(String last_name) {
-        this.last_name = last_name;
+    public void setLastname(String lastName) {
+        this.lastname = lastName;
     }
 
     public String getEmail() {

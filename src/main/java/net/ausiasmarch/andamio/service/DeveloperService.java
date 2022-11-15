@@ -62,7 +62,7 @@ public class DeveloperService {
     public void validate(DeveloperEntity oDeveloperEntity) {
         ValidationHelper.validateStringLength(oDeveloperEntity.getName(), 2, 50, "campo name de Developer(el campo debe tener longitud de 2 a 50 caracteres)");
         ValidationHelper.validateStringLength(oDeveloperEntity.getSurname(), 2, 50, "campo surname de Developer(el campo debe tener longitud de 2 a 50 caracteres)");
-        ValidationHelper.validateStringLength(oDeveloperEntity.getLast_name(), 2, 50, "campo lastname de Developer(el campo debe tener longitud de 2 a 50 caracteres)");
+        ValidationHelper.validateStringLength(oDeveloperEntity.getLastname(), 2, 50, "campo lastname de Developer(el campo debe tener longitud de 2 a 50 caracteres)");
         ValidationHelper.validateEmail(oDeveloperEntity.getEmail(), "campo email de Developer");
         ValidationHelper.validateLogin(oDeveloperEntity.getUsername(), "campo username de Developer");
         if (oDeveloperRepository.existsByUsername(oDeveloperEntity.getUsername())) {
@@ -98,15 +98,15 @@ public class DeveloperService {
         } else {
             if (id_team == null) {
                 if (id_usertype == null) {
-                    return oDeveloperRepository.findByNameIgnoreCaseContainingOrSurnameIgnoreCaseContainingOrLast_nameIgnoreCaseContaining(strFilter, strFilter, strFilter, oPageable);
+                    return oDeveloperRepository.findByNameIgnoreCaseContainingOrSurnameIgnoreCaseContainingOrLastnameIgnoreCaseContaining(strFilter, strFilter, strFilter, oPageable);
                 } else {
-                    return oDeveloperRepository.findByNameIgnoreCaseContainingOrSurnameIgnoreCaseContainingOrLast_nameIgnoreCaseContainingAndUsertypeId(strFilter, strFilter, strFilter, id_usertype, oPageable);
+                    return oDeveloperRepository.findByNameIgnoreCaseContainingOrSurnameIgnoreCaseContainingOrLastnameIgnoreCaseContainingAndUsertypeId(strFilter, strFilter, strFilter, id_usertype, oPageable);
                 }
             } else {
                 if (id_usertype == null) {
-                    return oDeveloperRepository.findByNameIgnoreCaseContainingOrSurnameIgnoreCaseContainingOrLast_nameIgnoreCaseContainingAndTeamId(strFilter, strFilter, strFilter, id_team, oPageable);
+                    return oDeveloperRepository.findByNameIgnoreCaseContainingOrSurnameIgnoreCaseContainingOrLastnameIgnoreCaseContainingAndTeamId(strFilter, strFilter, strFilter, id_team, oPageable);
                 } else {
-                    return oDeveloperRepository.findByNameIgnoreCaseContainingOrSurnameIgnoreCaseContainingOrLast_nameIgnoreCaseContainingAndTeamIdAndUsertypeId(strFilter, strFilter, strFilter, id_team, id_usertype, oPageable);
+                    return oDeveloperRepository.findByNameIgnoreCaseContainingOrSurnameIgnoreCaseContainingOrLastnameIgnoreCaseContainingAndTeamIdAndUsertypeId(strFilter, strFilter, strFilter, id_team, id_usertype, oPageable);
                 }
             }
         }
@@ -162,7 +162,7 @@ public class DeveloperService {
 
         oDeveloperEntity.setName(names.get(RandomHelper.getRandomInt(0, names.size() - 1)));
         oDeveloperEntity.setSurname(surnames.get(RandomHelper.getRandomInt(0, names.size() - 1)));
-        oDeveloperEntity.setLast_name(last_names.get(RandomHelper.getRandomInt(0, names.size() - 1)));
+        oDeveloperEntity.setLastname(last_names.get(RandomHelper.getRandomInt(0, names.size() - 1)));
 
         oDeveloperEntity.setUsername((oDeveloperEntity.getName().toLowerCase()
                 + oDeveloperEntity.getSurname().toLowerCase()).replaceAll("\\s", ""));
