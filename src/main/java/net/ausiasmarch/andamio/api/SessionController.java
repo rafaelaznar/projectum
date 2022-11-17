@@ -1,4 +1,3 @@
-
 package net.ausiasmarch.andamio.api;
 
 import net.ausiasmarch.andamio.bean.DeveloperBean;
@@ -20,13 +19,13 @@ public class SessionController {
     AuthService oAuthService;
 
     @GetMapping("")
-    public ResponseEntity<DeveloperEntity> check() {            
+    public ResponseEntity<DeveloperEntity> check() {
         return new ResponseEntity<DeveloperEntity>(oAuthService.check(), HttpStatus.OK);
     }
 
     @PostMapping
     public ResponseEntity<String> login(@org.springframework.web.bind.annotation.RequestBody DeveloperBean oDeveloperBean) {
-        return new ResponseEntity<String>(oAuthService.login(oDeveloperBean), HttpStatus.OK);
+        return new ResponseEntity<String>("\"" + oAuthService.login(oDeveloperBean) + "\"", HttpStatus.OK);
     }
 
 }
