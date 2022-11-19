@@ -9,6 +9,9 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import net.ausiasmarch.andamio.entity.HelpEntity;
@@ -44,7 +47,21 @@ public class HelpService {
     public HelpEntity get(Long id) {
         //oAuthService.OnlyAdmins();
         return oHelpRepository.getById(id);
-    }    
+    }  
+    
+    public Page<HelpEntity> getPage(Long id_developer, Long id_resolution, int page, int size) {
+        //oAuthService.OnlyAdmins();
+        Pageable oPageable = PageRequest.of(page, size);
+        if (id_developer == null && id_resolution == null) {
+            return oHelpRepository.findAll(oPageable);
+        } else if (id_developer == null) {
+            return oHelpRepository.findByResolutionId(id_resolution, oPageable);
+        } else if (id_resolution == null) {
+            return oHelpRepository.findByDeveloperId(id_developer, oPageable);
+        } else {
+            return oHelpRepository.findByDeveloperIdAndResolutionId(id_developer, id_resolution, oPageable);
+        }
+    }
     
     @Transactional
     public Long create(HelpEntity oNewHelpEntity) {
