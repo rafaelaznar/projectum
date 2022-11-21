@@ -119,7 +119,7 @@ public class TaskService {
 
     public Page<TaskEntity> getPage(Pageable oPageable, String strFilter, Long lProject) {
         Page<TaskEntity> oPage = null;
-        if (oAuthService.isAdmin()) {
+        //if (oAuthService.isAdmin()) {
             if (lProject != null) {
                 if (strFilter == null || strFilter.isEmpty() || strFilter.trim().isEmpty()) {
                     return oTaskRepository.findByProjectId(lProject, oPageable);
@@ -133,9 +133,9 @@ public class TaskService {
                     return oTaskRepository.findByDescriptionContainingIgnoreCase(strFilter, oPageable);
                 }
             }
-        } else {
-            throw new UnauthorizedException("this request is only allowed to admin role");
-        }
+        //} else {
+          //  throw new UnauthorizedException("this request is only allowed to admin role");
+        //}
     }
 
     public Long create(TaskEntity oNewTaskEntity){

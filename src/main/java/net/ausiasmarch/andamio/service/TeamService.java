@@ -58,7 +58,7 @@ public class TeamService {
 
     public Page<TeamEntity> getPage(Pageable oPageable, String strFilter, Long lDeveloper) {
         Page<TeamEntity> oPage = null;
-        if (oAuthService.isAdmin()) {
+        //if (oAuthService.isAdmin()) {
             if (lDeveloper != null) {
                 if (strFilter == null || strFilter.isEmpty() || strFilter.trim().isEmpty()) {
                     return oTeamRepository.findByDeveloperId(lDeveloper, oPageable);
@@ -72,9 +72,9 @@ public class TeamService {
                     return oTeamRepository.findByNameContainingIgnoreCase(strFilter, oPageable);
                 }
             }
-        } else {
-            throw new UnauthorizedException("this request is only allowed to admin role");
-        }
+        //} else {
+        //    throw new UnauthorizedException("this request is only allowed to admin role");
+        //}
     }
 
     public Long create(TeamEntity oNewTeamEntity) {

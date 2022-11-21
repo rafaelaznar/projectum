@@ -91,7 +91,7 @@ public class ResolutionService {
     }
 
     public Long generateSome(int amount) {
-        oAuthService.isAdmin();
+        //oAuthService.isAdmin();
         if (oIssueService.count() > 0) {
             for (int i = 0; i < amount; i++) {
                 ResolutionEntity oResolutionEntity = generate();
