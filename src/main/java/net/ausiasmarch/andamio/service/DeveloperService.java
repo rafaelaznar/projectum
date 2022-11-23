@@ -121,6 +121,8 @@ public class DeveloperService {
     public Long update(DeveloperEntity oDeveloperEntity) {
         validate(oDeveloperEntity.getId());
         //oAuthService.OnlyAdmins();
+        DeveloperEntity oOldDeveloperEntity=oDeveloperRepository.getById(oDeveloperEntity.getId());
+        oDeveloperEntity.setPassword(oOldDeveloperEntity.getPassword());
         return oDeveloperRepository.save(oDeveloperEntity).getId();
     }
 
@@ -128,6 +130,7 @@ public class DeveloperService {
         //oAuthService.OnlyAdmins();
         validate(oNewDeveloperEntity);
         oNewDeveloperEntity.setId(0L);
+        oNewDeveloperEntity.setPassword(ANDAMIO_DEFAULT_PASSWORD);
         return oDeveloperRepository.save(oNewDeveloperEntity).getId();
     }
 
