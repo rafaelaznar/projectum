@@ -81,7 +81,7 @@ public class DeveloperService {
     public Page<DeveloperEntity> getPage(Pageable oPageable, String strFilter, Long id_team, Long id_usertype) {
         //oAuthService.OnlyAdmins();
         ValidationHelper.validateRPP(oPageable.getPageSize());
-        if (strFilter == null || strFilter.length()==0) {
+        if (strFilter == null || strFilter.length() == 0) {
             if (id_team == null) {
                 if (id_usertype == null) {
                     return oDeveloperRepository.findAll(oPageable);
@@ -121,6 +121,8 @@ public class DeveloperService {
     public Long update(DeveloperEntity oDeveloperEntity) {
         validate(oDeveloperEntity.getId());
         //oAuthService.OnlyAdmins();
+        DeveloperEntity oOldDeveloperEntity = oDeveloperRepository.getById(oDeveloperEntity.getId());
+        oDeveloperEntity.setPassword(oOldDeveloperEntity.getPassword());
         return oDeveloperRepository.save(oDeveloperEntity).getId();
     }
 
@@ -128,6 +130,7 @@ public class DeveloperService {
         //oAuthService.OnlyAdmins();
         validate(oNewDeveloperEntity);
         oNewDeveloperEntity.setId(0L);
+        oNewDeveloperEntity.setPassword(ANDAMIO_DEFAULT_PASSWORD);
         return oDeveloperRepository.save(oNewDeveloperEntity).getId();
     }
 

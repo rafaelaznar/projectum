@@ -50,12 +50,12 @@ public class DeveloperController {
         return new ResponseEntity<Long>(oDeveloperService.count(), HttpStatus.OK);
     }
 
-    @PutMapping("")
+    @PutMapping
     public ResponseEntity<Long> update(@RequestBody DeveloperEntity oDeveloperEntity) {
         return new ResponseEntity<Long>(oDeveloperService.update(oDeveloperEntity), HttpStatus.OK);
     }
 
-    @PostMapping("/")
+    @PostMapping
     public ResponseEntity<Long> create(@RequestBody DeveloperEntity oNewDeveloperEntity) {
         return new ResponseEntity<Long>(oDeveloperService.create(oNewDeveloperEntity), HttpStatus.OK);
     }
