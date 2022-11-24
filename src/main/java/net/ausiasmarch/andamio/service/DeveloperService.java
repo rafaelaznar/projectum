@@ -121,7 +121,7 @@ public class DeveloperService {
     public Long update(DeveloperEntity oDeveloperEntity) {
         validate(oDeveloperEntity.getId());
         //oAuthService.OnlyAdmins();
-        DeveloperEntity oOldDeveloperEntity = oDeveloperRepository.getById(oDeveloperEntity.getId());
+        DeveloperEntity oOldDeveloperEntity=oDeveloperRepository.getById(oDeveloperEntity.getId());
         oDeveloperEntity.setPassword(oOldDeveloperEntity.getPassword());
         return oDeveloperRepository.save(oDeveloperEntity).getId();
     }
