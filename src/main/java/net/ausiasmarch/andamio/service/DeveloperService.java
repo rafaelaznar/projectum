@@ -73,7 +73,7 @@ public class DeveloperService {
     }
 
     public DeveloperEntity get(Long id) {
-        //oAuthService.OnlyAdmins();
+        oAuthService.OnlyAdmins();
         return oDeveloperRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Developer with id: " + id + " not found"));
     }

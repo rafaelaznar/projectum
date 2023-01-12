@@ -32,16 +32,13 @@
  */
 package net.ausiasmarch.andamio.helper;
 
-public enum UsertypeHelper {
-    ADMIN(1L), REVIEWER(2L), DEVELOPER(3L);
-    private final Long usertype;
-
-    UsertypeHelper(Long usertype) {
-        this.usertype = usertype;
-    }
-
-    public Long getUsertype() {
-        return usertype;
-    }       
+public class UsertypeHelper {
+    
+    
+    public static final Long ADMIN = 1L;
+    public static final Long REVIEWER = 2L;
+    public static final Long DEVELOPER = 3L;
+    
+     
 
 }

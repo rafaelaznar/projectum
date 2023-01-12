@@ -44,9 +44,9 @@ public class AuthService {
     }
 
     public boolean isAdmin() {
-        DeveloperEntity oDeveloperSessionEntity = oDeveloperRepository.findByUsername((String)  oRequest.getAttribute("developer"));
+        DeveloperEntity oDeveloperSessionEntity = oDeveloperRepository.findByUsername((String) oRequest.getAttribute("developer"));
         if (oDeveloperSessionEntity != null) {
-            if (oDeveloperSessionEntity.getUsertype().getId().equals(UsertypeHelper.ADMIN.getUsertype())) {
+            if (oDeveloperSessionEntity.getUsertype().getId().equals(UsertypeHelper.ADMIN)) {
                 return true;
             }
         }
@@ -54,21 +54,19 @@ public class AuthService {
     }
 
     public void OnlyAdmins() {
-        DeveloperEntity oDeveloperSessionEntity = oDeveloperRepository.findByUsername((String)  oRequest.getAttribute("developer"));
+        DeveloperEntity oDeveloperSessionEntity = oDeveloperRepository.findByUsername((String) oRequest.getAttribute("developer"));
         if (oDeveloperSessionEntity == null) {
             throw new UnauthorizedException("this request is only allowed to admin role");
         } else {
-            if (!oDeveloperSessionEntity.getUsertype().getId().equals(UsertypeHelper.ADMIN.getUsertype())) {
+            if (!oDeveloperSessionEntity.getUsertype().getId().equals(UsertypeHelper.ADMIN)) {
                 throw new UnauthorizedException("this request is only allowed to admin role");
             }
         }
     }
 
-    /*    
-    
     public boolean isLoggedIn() {
-        UsuarioEntity oUsuarioSessionEntity = (UsuarioEntity) oHttpSession.getAttribute("usuario");
-        if (oUsuarioSessionEntity == null) {
+        String strDeveloperName = (String) oRequest.getAttribute("developer");
+        if (strDeveloperName == null) {
             return false;
         } else {
             return true;
@@ -76,58 +74,95 @@ public class AuthService {
     }
 
     public Long getUserID() {
-        UsuarioEntity oUsuarioSessionEntity = (UsuarioEntity) oHttpSession.getAttribute("usuario");
-        if (oUsuarioSessionEntity != null) {
-            return oUsuarioSessionEntity.getId();
+        String strDeveloperName = (String) oRequest.getAttribute("developer");
+        DeveloperEntity oDeveloperEntity = oDeveloperRepository.findByUsername(strDeveloperName);
+        if (oDeveloperEntity != null) {
+            return oDeveloperEntity.getId();
         } else {
-            throw new UnauthorizedException("this request is only allowed to auth users");
+            throw new UnauthorizedException("this request is only allowed to auth developers");
         }
     }
 
-
-    public boolean isUser() {
-        UsuarioEntity oUsuarioSessionEntity = (UsuarioEntity) oHttpSession.getAttribute("usuario");
-        if (oUsuarioSessionEntity != null) {
-            if (oUsuarioSessionEntity.getTipousuario().getId().equals(TipoUsuarioHelper.USER)) {
+    public boolean isReviewer() {
+        String strDeveloperName = (String) oRequest.getAttribute("developer");
+        DeveloperEntity oDeveloperEntity = oDeveloperRepository.findByUsername(strDeveloperName);
+        if (oDeveloperEntity != null) {
+            if (oDeveloperEntity.getUsertype().getId().equals(UsertypeHelper.REVIEWER)) {
                 return true;
             }
         }
         return false;
     }
 
+    public boolean isDeveloper() {
+        String strDeveloperName = (String) oRequest.getAttribute("developer");
+        DeveloperEntity oDeveloperEntity = oDeveloperRepository.findByUsername(strDeveloperName);
+        if (oDeveloperEntity != null) {
+            if (oDeveloperEntity.getUsertype().getId().equals(UsertypeHelper.DEVELOPER)) {
+                return true;
+            }
+        }
+        return false;
+    }
 
-    public void OnlyUsers() {
-        UsuarioEntity oUsuarioSessionEntity = (UsuarioEntity) oHttpSession.getAttribute("usuario");
-        if (oUsuarioSessionEntity == null) {
-            throw new UnauthorizedException("this request is only allowed to user role");
+    public void OnlyDevelopers() {
+        String strDeveloperName = (String) oRequest.getAttribute("developer");
+        DeveloperEntity oDeveloperEntity = oDeveloperRepository.findByUsername(strDeveloperName);
+        if (oDeveloperEntity == null) {
+            throw new UnauthorizedException("this request is only allowed to developer role");
         } else {
-            if (!oUsuarioSessionEntity.getTipousuario().getId().equals(TipoUsuarioHelper.USER)) {
-                throw new UnauthorizedException("this request is only allowed to user role");
+            if (!oDeveloperEntity.getUsertype().getId().equals(UsertypeHelper.DEVELOPER)) {
+                throw new UnauthorizedException("this request is only allowed to developer role");
             }
         }
     }
 
-    public void OnlyAdminsOrUsers() {
-        UsuarioEntity oUsuarioSessionEntity = (UsuarioEntity) oHttpSession.getAttribute("usuario");
-        if (oUsuarioSessionEntity == null) {
-            throw new UnauthorizedException("this request is only allowed to user or admin role");
+    public void OnlyAdminsOrReviewers() {
+        String strDeveloperName = (String) oRequest.getAttribute("developer");
+        DeveloperEntity oDeveloperEntity = oDeveloperRepository.findByUsername(strDeveloperName);
+        if (oDeveloperEntity == null) {
+            throw new UnauthorizedException("this request is only allowed to admin or reviewer role");
         } else {
-
-        }
-    }
-
-    public void OnlyAdminsOrOwnUsersData(Long id) {
-        UsuarioEntity oUsuarioSessionEntity = (UsuarioEntity) oHttpSession.getAttribute("usuario");
-        if (oUsuarioSessionEntity != null) {
-            if (oUsuarioSessionEntity.getTipousuario().getId().equals(TipoUsuarioHelper.USER)) {
-                if (!oUsuarioSessionEntity.getId().equals(id)) {
-                    throw new UnauthorizedException("this request is only allowed for your own data");
+            if (oDeveloperEntity.getUsertype().getId().equals(UsertypeHelper.ADMIN)) {
+            } else {
+                if (oDeveloperEntity.getUsertype().getId().equals(UsertypeHelper.DEVELOPER)) {
+                } else {
+                    throw new UnauthorizedException("this request is only allowed to admin or reviewer role");
                 }
             }
-        } else {
-            throw new UnauthorizedException("this request is only allowed to user or admin role");
         }
     }
 
-     */
+    public void OnlyOwnDevelopersData(Long id) {
+        String strDeveloperName = (String) oRequest.getAttribute("developer");
+        DeveloperEntity oDeveloperEntity = oDeveloperRepository.findByUsername(strDeveloperName);
+        if (oDeveloperEntity != null) {
+            if (oDeveloperEntity.getUsertype().getId().equals(UsertypeHelper.DEVELOPER)) {
+                if (!oDeveloperEntity.getId().equals(id)) {
+                    throw new UnauthorizedException("this request is only allowed for your own developer data");
+                }
+            } else {
+                throw new UnauthorizedException("this request is only allowed to developer role");
+            }
+        } else {
+            throw new UnauthorizedException("this request is only allowed to developer role");
+        }
+    }
+
+    public void OnlyOwnReviewerData(Long id) {
+        String strDeveloperName = (String) oRequest.getAttribute("developer");
+        DeveloperEntity oDeveloperEntity = oDeveloperRepository.findByUsername(strDeveloperName);
+        if (oDeveloperEntity != null) {
+            if (oDeveloperEntity.getUsertype().getId().equals(UsertypeHelper.REVIEWER)) {
+                if (!oDeveloperEntity.getId().equals(id)) {
+                    throw new UnauthorizedException("this request is only allowed for your own reviewer data");
+                }
+            } else {
+                throw new UnauthorizedException("this request is only allowed to reviewer role");
+            }
+        } else {
+            throw new UnauthorizedException("this request is only allowed to reviewer role");
+        }
+    }
+
 }
