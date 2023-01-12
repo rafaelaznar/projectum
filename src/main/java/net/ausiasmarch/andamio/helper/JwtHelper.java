@@ -14,7 +14,7 @@ import net.ausiasmarch.andamio.exception.JWTException;
 public class JwtHelper {
 
     private static final String SECRET = "HOLAHOLAasdfghjklHOLAHOLA";
-    private static final String ISSUER = "ticTOKEN";
+    private static final String ISSUER = "ANDAMIO AUSIAS";
 
     private static SecretKey secretKey() {
         return Keys.hmacShaKeyFor((SECRET + ISSUER + SECRET).getBytes());
