@@ -79,7 +79,7 @@ public class DeveloperService {
     }
 
     public Page<DeveloperEntity> getPage(Pageable oPageable, String strFilter, Long id_team, Long id_usertype) {
-        //oAuthService.OnlyAdmins();
+        oAuthService.OnlyAdmins();
         ValidationHelper.validateRPP(oPageable.getPageSize());
         if (strFilter == null || strFilter.length() == 0) {
             if (id_team == null) {
